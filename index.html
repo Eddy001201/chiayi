@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiayi in a Heartbeat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF6EF;
+    --cream-dark: #F2EAD8;
+    --wood-light: #D4B896;
+    --wood: #A67C52;
+    --wood-dark: #6B4423;
+    --wood-deep: #3D2209;
+    --ink: #1E1208;
+    --ink-mid: #5C3D1E;
+    --ink-soft: #8B6840;
+    --sage: #7A9068;
+    --sage-light: #EEF2E8;
+    --white: #FDFAF5;
+    --border: rgba(90,55,20,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    /* 修正：確保縱向滾動流暢，並優化 iOS 手機滑動手感 */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(250,246,239,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--wood-dark); letter-spacing: 0.05em;
+  }
+  .nav-logo span { font-style: italic; color: var(--wood); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-soft); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--wood-dark); }
+  .nav-cta {
+    background: var(--wood-dark); color: var(--cream);
+    border: none; padding: 0.6rem 1.4rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+    border-radius: 2px;
+  }
+  .nav-cta:hover { background: var(--wood-deep); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--wood-deep);
+    position: relative; 
+    /* 修正：移除 overflow: hidden，避免手機版高度被切斷無法下滑 */
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-texture {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, transparent 1px, transparent 60px);
+  }
+  .hero-glow {
+    position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(166,124,82,0.25) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; padding: 2rem;
+    animation: fadeUp 1.2s ease both;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--wood-light); margin-bottom: 1.8rem;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--wood);
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--cream); margin-bottom: 0.3rem;
+  }
+  .hero-title em { font-style: italic; color: var(--wood-light); }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: rgba(212,184,150,0.7); font-weight: 300; font-style: italic;
+    margin-bottom: 3rem; letter-spacing: 0.03em;
+  }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--wood); color: var(--cream);
+    border: none; padding: 0.9rem 2.2rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s; border-radius: 2px;
+  }
+  .btn-primary:hover { background: var(--wood-light); color: var(--wood-deep); }
+  .btn-ghost {
+    background: transparent; color: var(--wood-light);
+    border: 1px solid rgba(212,184,150,0.4); padding: 0.9rem 2.2rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s; border-radius: 2px;
+  }
+  .btn-ghost:hover { border-color: var(--wood-light); background: rgba(212,184,150,0.08); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    color: rgba(212,184,150,0.4); font-size: 0.7rem; letter-spacing: 0.2em;
+    text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .hero-scroll::after {
+    content: ''; display: block; width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(212,184,150,0.4), transparent);
+  }
+
+  /* TRUST */
+  .trust {
+    background: var(--white);
+    padding: 5rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .trust-inner { max-width: 960px; margin: 0 auto; }
+  .trust-stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 2rem; margin-bottom: 4rem; text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem; font-weight: 300; color: var(--wood-dark);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); margin-top: 0.4rem;
+  }
+  .trust-divider {
+    width: 60px; height: 1px; background: var(--wood-light);
+    margin: 0 auto 4rem;
+  }
+  .reviews { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+  .review-card {
+    background: var(--cream); border: 1px solid var(--border);
+    padding: 1.6rem; border-radius: 4px;
+  }
+  .review-stars { color: var(--wood); font-size: 0.75rem; margin-bottom: 0.8rem; letter-spacing: 0.1em; }
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; font-style: italic; color: var(--ink-mid);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .review-author { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--ink-soft); }
+
+  /* PACKAGES */
+  .packages {
+    padding: 6rem 3rem;
+    background: var(--cream-dark);
+  }
+  .section-header { text-align: center; margin-bottom: 4rem; }
+  .section-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--wood); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 300;
+    color: var(--wood-deep); line-height: 1.2;
+  }
+  .section-title em { font-style: italic; color: var(--wood); }
+  .packages-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem;
+  }
+  .pkg-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .pkg-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(61,34,9,0.12); }
+  .pkg-img {
+    height: 180px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; position: relative; overflow: hidden;
+  }
+  .pkg-img-slowlife { background: linear-gradient(135deg, #C4956A 0%, #8B5E3C 100%); }
+  .pkg-img-alley { background: linear-gradient(135deg, #7A6552 0%, #4A3728 100%); }
+  .pkg-img-food { background: linear-gradient(135deg, #B8864E 0%, #7A4F2C 100%); }
+  .pkg-img-culture { background: linear-gradient(135deg, #8A9E7A 0%, #5C7050 100%); }
+  .pkg-img-label {
+    position: absolute; bottom: 1rem; left: 1.2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; font-style: italic;
+    color: rgba(255,255,255,0.85); letter-spacing: 0.03em;
+  }
+  .pkg-body { padding: 1.4rem 1.6rem 1.6rem; }
+  .pkg-tags { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+  .pkg-tag {
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--wood); background: rgba(166,124,82,0.1);
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+  }
+  .pkg-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem; font-weight: 400; color: var(--wood-deep);
+    margin-bottom: 0.4rem;
+  }
+  .pkg-desc { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.6; margin-bottom: 1.2rem; }
+  .pkg-footer { display: flex; align-items: center; justify-content: space-between; }
+  .pkg-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--wood-dark);
+  }
+  .pkg-btn {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--wood-dark); border: 1px solid var(--wood-light);
+    background: transparent; padding: 0.45rem 1rem;
+    cursor: pointer; transition: all 0.2s; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .pkg-btn:hover { background: var(--wood-dark); color: var(--cream); border-color: var(--wood-dark); }
+  .pkg-discount {
+    text-align: center; margin-top: 3rem;
+    font-size: 0.8rem; color: var(--ink-soft);
+  }
+  .pkg-discount code {
+    background: rgba(166,124,82,0.12); color: var(--wood-dark);
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+    font-family: 'DM Sans', monospace; font-size: 0.85rem; letter-spacing: 0.1em;
+  }
+
+  /* PACKAGE DETAIL MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(30,18,8,0.6); backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    display: none; /* 修正：預設設為 none 徹底不渲染，解鎖手機手勢觸控 */
+    align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; display: flex; }
+  .modal-box {
+    background: var(--white); border-radius: 8px;
+    max-width: 680px; width: 100%; max-height: 82vh;
+    overflow-y: auto; position: relative;
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.34,1.4,0.64,1);
+    border: 1px solid var(--border);
+  }
+  .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+  .modal-box::-webkit-scrollbar { width: 4px; }
+  .modal-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .modal-hero {
+    height: 200px; position: relative; overflow: hidden;
+    display: flex; align-items: flex-end; padding: 1.5rem 2rem;
+  }
+  .modal-hero-info { position: relative; z-index: 2; }
+  .modal-pkg-tag {
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); margin-bottom: 0.3rem;
+  }
+  .modal-pkg-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300; color: var(--white);
+    line-height: 1.1;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem; z-index: 10;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+    color: white; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; backdrop-filter: blur(4px);
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.3); }
+  .modal-body { padding: 2rem; }
+  .modal-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-style: italic; color: var(--ink-mid);
+    line-height: 1.7; margin-bottom: 2rem;
+    padding-bottom: 1.5rem; border-bottom: 1px solid var(--border);
+  }
+  .modal-day-label {
+    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--wood); margin-bottom: 1rem; margin-top: 1.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .modal-day-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .modal-stop {
+    display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start;
+  }
+  .modal-stop-time {
+    font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-soft); min-width: 80px; padding-top: 0.15rem; line-height: 1.4;
+  }
+  .modal-stop-content { flex: 1; }
+  .modal-stop-name {
+    font-size: 0.88rem; color: var(--ink); font-weight: 500; margin-bottom: 0.15rem;
+  }
+  .modal-stop-name a {
+    color: var(--ink); text-decoration: none;
+    border-bottom: 1px solid var(--wood-light);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .modal-stop-name a:hover { color: var(--wood-dark); border-color: var(--wood); }
+  .modal-stop-desc { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.5; }
+  .modal-actions {
+    margin-top: 2rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 0.8rem;
+  }
+  .modal-btn {
+    flex: 1; padding: 0.8rem 1rem; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+    letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+  }
+  .modal-btn-primary { background: var(--wood-dark); color: var(--cream); border: none; }
+  .modal-btn-primary:hover { background: var(--wood-deep); }
+  .modal-btn-ghost { background: transparent; color: var(--wood-dark); border: 1px solid var(--wood-light); }
+  .modal-btn-ghost:hover { background: rgba(166,124,82,0.08); }
+
+  /* TRANSPORT */
+  .transport {
+    background: var(--wood-deep); padding: 5rem 3rem;
+    color: var(--cream);
+  }
+  .transport-inner { max-width: 860px; margin: 0 auto; }
+  .transport .section-eyebrow { color: var(--wood-light); }
+  .transport .section-title { color: var(--cream); }
+  .transport-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 4px;
+    overflow: hidden; margin-top: 3rem;
+  }
+  .transport-cell {
+    background: rgba(255,255,255,0.03);
+    padding: 1.8rem 1.5rem;
+  }
+  .transport-city {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--wood-light); margin-bottom: 0.4rem;
+  }
+  .transport-airport {
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(212,184,150,0.4); margin-bottom: 1.2rem;
+  }
+  .transport-route { font-size: 0.82rem; color: rgba(250,246,239,0.6); line-height: 1.7; }
+  .transport-time {
+    margin-top: 1rem; font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; color: var(--wood-light);
+  }
+  .transport-time span { font-size: 0.75rem; color: rgba(212,184,150,0.5); margin-left: 0.3rem; }
+  .qr-row {
+    margin-top: 3rem; padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .qr-box {
+    width: 64px; height: 64px; background: var(--white); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem; color: var(--ink-soft); text-align: center;
+    padding: 0.3rem; line-height: 1.3;
+  }
+  .qr-label { font-size: 0.78rem; color: rgba(250,246,239,0.5); line-height: 1.6; }
+
+  /* CAPTURE */
+  .capture {
+    background: var(--cream); padding: 6rem 3rem;
+    text-align: center;
+  }
+  .capture-inner { max-width: 520px; margin: 0 auto; }
+  .capture .section-title { margin-bottom: 0.8rem; }
+  .capture-sub {
+    font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 2.5rem; line-height: 1.6;
+  }
+  .capture-form { display: flex; flex-direction: column; gap: 0.8rem; }
+  .input-row { display: flex; gap: 0.8rem; }
+  .capture-input {
+    flex: 1; padding: 0.85rem 1rem;
+    border: 1px solid var(--border); background: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--ink);
+    border-radius: 2px; outline: none; transition: border-color 0.2s;
+  }
+  .capture-input:focus { border-color: var(--wood); }
+  .capture-input::placeholder { color: rgba(139,104,64,0.4); }
+  .capture-select {
+    padding: 0.85rem 1rem; border: 1px solid var(--border); background: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--ink);
+    border-radius: 2px; outline: none; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B6840' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  .capture-btn {
+    background: var(--wood-dark); color: var(--cream); border: none;
+    padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; transition: background 0.2s;
+  }
+  .capture-btn:hover { background: var(--wood-deep); }
+  .capture-note { font-size: 0.72rem; color: rgba(139,104,64,0.5); margin-top: 0.5rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--wood-deep); padding: 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--wood-light); letter-spacing: 0.05em;
+  }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(212,184,150,0.4); text-decoration: none; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--wood-light); }
+  .footer-copy { font-size: 0.7rem; color: rgba(212,184,150,0.3); }
+
+  /* CHATBOT */
+  .chat-fab {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+  }
+  .chat-bubble-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--wood-dark); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(61,34,9,0.35);
+    transition: all 0.25s;
+  }
+  .chat-bubble-btn:hover { background: var(--wood-deep); transform: scale(1.05); }
+  .chat-bubble-btn svg { width: 22px; height: 22px; fill: var(--cream); }
+  .chat-ping {
+    position: absolute; top: -2px; right: -2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--sage); border: 2px solid var(--cream);
+    animation: ping 2s ease-in-out infinite;
+  }
+  .chat-panel {
+    position: fixed; bottom: 5.5rem; right: 2rem; z-index: 200;
+    width: 360px; max-height: 540px;
+    background: var(--white); border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(61,34,9,0.2);
+    display: none; /* 修正：預設隱藏面板，絕不在透明狀態下阻擋手機手勢觸控 */
+    flex-direction: column;
+    transform: translateY(20px) scale(0.95); opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    overflow: hidden;
+  }
+  .chat-panel.open {
+    transform: translateY(0) scale(1); opacity: 1; pointer-events: all; display: flex;
+  }
+  .chat-header {
+    background: var(--wood-dark); padding: 1rem 1.2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .chat-header-info { display: flex; align-items: center; gap: 0.7rem; }
+  .chat-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--wood-light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 0.9rem;
+    color: var(--wood-deep); font-weight: 600;
+  }
+  .chat-header-name {
+    font-size: 0.85rem; font-weight: 500; color: var(--cream);
+  }
+  .chat-header-status { font-size: 0.7rem; color: var(--wood-light); }
+  .chat-close {
+    background: none; border: none; cursor: pointer;
+    color: rgba(212,184,150,0.6); font-size: 1.2rem; line-height: 1;
+    transition: color 0.2s;
+  }
+  .chat-close:hover { color: var(--wood-light); }
+  .chat-body {
+    flex: 1; overflow-y: auto; padding: 1.2rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    scroll-behavior: smooth;
+  }
+  .chat-body::-webkit-scrollbar { width: 4px; }
+  .chat-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .msg-bot, .msg-user { max-width: 85%; }
+  .msg-bot { align-self: flex-start; }
+  .msg-user { align-self: flex-end; }
+  .msg-bubble {
+    padding: 0.75rem 1rem; border-radius: 12px;
+    font-size: 0.83rem; line-height: 1.55;
+  }
+  .msg-bot .msg-bubble {
+    background: var(--cream-dark); color: var(--ink-mid);
+    border-bottom-left-radius: 4px;
+  }
+  .msg-user .msg-bubble {
+    background: var(--wood-dark); color: var(--cream);
+    border-bottom-right-radius: 4px;
+  }
+  .chat-options {
+    display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.3rem;
+  }
+  .chat-opt {
+    background: var(--white); border: 1px solid var(--border);
+    padding: 0.6rem 0.9rem; border-radius: 8px;
+    font-size: 0.79rem; color: var(--ink-mid); cursor: pointer;
+    text-align: left; transition: all 0.18s; line-height: 1.4;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .chat-opt:hover { background: var(--cream-dark); border-color: var(--wood-light); color: var(--wood-dark); }
+  .chat-opt.selected { background: var(--wood-dark); color: var(--cream); border-color: var(--wood-dark); pointer-events: none; }
+  .chat-typing {
+    display: flex; gap: 4px; align-items: center; padding: 0.5rem 0;
+  }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--wood-light); animation: typingDot 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  .result-stop a {
+    color: var(--wood-dark); text-decoration: underline;
+    text-decoration-color: var(--wood-light);
+    text-underline-offset: 2px; transition: color 0.15s;
+  }
+  .result-stop a:hover { color: var(--wood); }
+  .result-card {
+    background: var(--cream-dark); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem; margin-top: 0.3rem;
+  }
+  .result-tag {
+    font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--wood); margin-bottom: 0.4rem;
+  }
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; color: var(--wood-deep); margin-bottom: 0.4rem;
+  }
+  .result-desc { font-size: 0.75rem; color: var(--ink-soft); line-height: 1.5; margin-bottom: 0.8rem; }
+  .result-itinerary { margin-bottom: 0.8rem; }
+  .result-day { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--wood); margin-bottom: 0.3rem; }
+  .result-stop { font-size: 0.75rem; color: var(--ink-mid); padding: 0.2rem 0; border-left: 2px solid var(--wood-light); padding-left: 0.6rem; margin-bottom: 0.25rem; }
+  .result-actions { display: flex; gap: 0.5rem; }
+  .result-btn {
+    flex: 1; padding: 0.55rem 0.5rem; border-radius: 4px;
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
+    text-align: center; border: none;
+  }
+  .result-btn-primary { background: var(--wood-dark); color: var(--cream); }
+  .result-btn-primary:hover { background: var(--wood-deep); }
+  .result-btn-ghost { background: transparent; color: var(--wood-dark); border: 1px solid var(--wood-light) !important; }
+  .result-btn-ghost:hover { background: rgba(166,124,82,0.1); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; }
+  }
+  @keyframes ping {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
+  }
+  @keyframes typingDot {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .fade-in { animation: fadeUp 0.6s ease both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>Chiayi in a Heartbeat</span></div>
+  <ul class="nav-links">
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#transport">Getting Here</a></li>
+    <li><a href="#capture">Plan My Trip</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openChat()">Find My Itinerary</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Chiayi, Taiwan · 嘉義</div>
+    <h1 class="hero-title">The Comma<br>in Your <em>Daily Rush</em></h1>
+    <p class="hero-subtitle">Slow down. Breathe. Feel something real.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openChat()">Find My Itinerary</button>
+      <button class="btn-ghost" onclick="document.getElementById('packages').scrollIntoView({behavior:'smooth'})">Browse Packages</button>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<section class="trust" id="trust">
+  <div class="trust-inner">
+    <div class="trust-stats">
+      <div>
+        <div class="stat-num">3,200+</div>
+        <div class="stat-label">Travelers Served</div>
+      </div>
+      <div>
+        <div class="stat-num">48</div>
+        <div class="stat-label">Local Partners</div>
+      </div>
+      <div>
+        <div class="stat-num">4.9</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="reviews">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I didn't expect much from a city I'd never heard of. Chiayi made me want to cancel my return flight."</p>
+        <div class="review-author">— Jiyeon K., Seoul</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The coffee shop recommendations alone were worth the trip. No tourists, just locals and good light."</p>
+        <div class="review-author">— Minseo P., Busan</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Finally a place that felt undiscovered. The itinerary quiz nailed exactly what I needed."</p>
+        <div class="review-author">— Haerin L., Seoul</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="packages" id="packages">
+  <div class="section-header">
+    <div class="section-eyebrow">Curated for You</div>
+    <h2 class="section-title">Two Days, <em>Four Ways</em></h2>
+  </div>
+  <div class="packages-grid">
+    <div class="pkg-card" onclick="openModal('slowlife')">
+      <div class="pkg-img pkg-img-slowlife">
+        <div class="pkg-img-label">Slow Life</div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-tags">
+          <span class="pkg-tag">Healing</span>
+          <span class="pkg-tag">Café Culture</span>
+        </div>
+        <div class="pkg-name">The Do-Nothing Escape</div>
+        <p class="pkg-desc">Coffee shops with good light. A market in the morning. Long afternoons with nowhere to be.</p>
+        <div class="pkg-footer">
+          <div class="pkg-price">2D1N · From ₩290,000</div>
+          <button class="pkg-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+    <div class="pkg-card" onclick="openModal('alley')">
+      <div class="pkg-img pkg-img-alley">
+        <div class="pkg-img-label">Hidden Alleys</div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-tags">
+          <span class="pkg-tag">Exploration</span>
+          <span class="pkg-tag">Local Spots</span>
+        </div>
+        <div class="pkg-name">The Side-Street Explorer</div>
+        <p class="pkg-desc">No signs, no crowds. Hidden cafés, old-town corners, and the kind of places only regulars know about.</p>
+        <div class="pkg-footer">
+          <div class="pkg-price">2D1N · From ₩310,000</div>
+          <button class="pkg-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+    <div class="pkg-card" onclick="openModal('food')">
+      <div class="pkg-img pkg-img-food">
+        <div class="pkg-img-label">Food First</div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-tags">
+          <span class="pkg-tag">Food & Drink</span>
+          <span class="pkg-tag">Street Food</span>
+        </div>
+        <div class="pkg-name">The Flavor Chaser</div>
+        <p class="pkg-desc">Turkey rice at 7am. Block toffee at noon. Chiayi feeds you the way grandmothers do.</p>
+        <div class="pkg-footer">
+          <div class="pkg-price">2D1N · From ₩280,000</div>
+          <button class="pkg-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+    <div class="pkg-card" onclick="openModal('culture')">
+      <div class="pkg-img pkg-img-culture">
+        <div class="pkg-img-label">Cultural Drift</div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-tags">
+          <span class="pkg-tag">Arts & Culture</span>
+          <span class="pkg-tag">Architecture</span>
+        </div>
+        <div class="pkg-name">The Slow Culture Walk</div>
+        <p class="pkg-desc">Colonial-era buildings. Independent bookshops. Art that doesn't try too hard.</p>
+        <div class="pkg-footer">
+          <div class="pkg-price">2D1N · From ₩300,000</div>
+          <button class="pkg-btn">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pkg-discount">
+    Found us through search? Enter code <code>CHIAYI10</code> at checkout for 10% off any package.
+  </div>
+</section>
+
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<section class="transport" id="transport">
+  <div class="transport-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" style="color:var(--wood-light)">Getting Here</div>
+      <h2 class="section-title" style="color:var(--cream)">Closer Than <em style="color:var(--wood-light)">You Think</em></h2>
+    </div>
+    <div class="transport-grid">
+      <div class="transport-cell">
+        <div class="transport-city">Seoul</div>
+        <div class="transport-airport">ICN — Incheon</div>
+        <div class="transport-route">
+          Fly direct to Kaohsiung (KHH)<br>
+          → HSR to Chiayi Station<br>
+          → 15 min to city center
+        </div>
+        <div class="transport-time">~4.5 hrs <span>total</span></div>
+      </div>
+      <div class="transport-cell">
+        <div class="transport-city">Busan</div>
+        <div class="transport-airport">PUS — Gimhae</div>
+        <div class="transport-route">
+          Fly direct to Tainan (TNN)<br>
+          → Taiwan Rail to Chiayi<br>
+          → 10 min to city center
+        </div>
+        <div class="transport-time">~3.5 hrs <span>total</span></div>
+      </div>
+      <div class="transport-cell">
+        <div class="transport-city">Jeju</div>
+        <div class="transport-airport">CJU — Jeju Int'l</div>
+        <div class="transport-route">
+          Connect via Taipei (TPE)<br>
+          → HSR south to Chiayi<br>
+          → 15 min to city center
+        </div>
+        <div class="transport-time">~5.5 hrs <span>total</span></div>
+      </div>
+    </div>
+    <div class="qr-row">
+      <div class="qr-box">QR<br>CODE<br>HERE</div>
+      <div class="qr-label">Scan for our full transport guide — bus schedules, rail passes, and airport transfer options, all in one place. Works offline too.</div>
+    </div>
+  </div>
+</section>
+
+<section class="capture" id="capture">
+  <div class="capture-inner">
+    <div class="section-eyebrow">Take It With You</div>
+    <h2 class="section-title">Keep Your <em>Itinerary</em></h2>
+    <p class="capture-sub">Leave your details and we'll send your personalized Chiayi itinerary straight to your inbox, along with transport tips and local recommendations.</p>
+    <div class="capture-form">
+      <div class="input-row">
+        <input type="email" class="capture-input" placeholder="Email address">
+        <input type="text" class="capture-input" placeholder="Line ID (optional)">
+      </div>
+      <select class="capture-select">
+        <option value="" disabled selected>Departing from...</option>
+        <option>Seoul</option>
+        <option>Busan</option>
+        <option>Jeju</option>
+        <option>Other city</option>
+      </select>
+      <button class="capture-btn">Send My Itinerary</button>
+      <p class="capture-note">No spam. Just your trip details and a few local tips we think you'll actually use.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Chiayi in a Heartbeat</div>
+  <ul class="footer-links">
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">YouTube</a></li>
+    <li><a href="#">Threads</a></li>
+    <li><a href="#">FAQ</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Chiayi in a Heartbeat</div>
+</footer>
+
+<div class="chat-fab">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">C</div>
+        <div>
+          <div class="chat-header-name">Chiayi Guide</div>
+          <div class="chat-header-status">Let's find your trip ✦</div>
+        </div>
+      </div>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-body" id="chatBody"></div>
+  </div>
+  <button class="chat-bubble-btn" onclick="toggleChat()" id="chatBtn">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+    </svg>
+    <div class="chat-ping"></div>
+  </button>
+</div>
+
+<script>
+// ── PACKAGE DATA ──────────────────────────────────────────────
+const packages = {
+  slowlife: {
+    label: 'Slow Life',
+    title: 'The Do-Nothing Escape',
+    desc: 'Two days of deliberate slowness. Morning markets, afternoon cafés, and the rare luxury of an unscheduled evening. This is not a packed itinerary — it\'s permission to exist at a different pace.',
+    bg: 'linear-gradient(135deg, #C4956A 0%, #8B5E3C 100%)',
+    price: '₩290,000',
+    days: [
+      {
+        label: 'Day 1',
+        stops: [
+          { time: 'Morning', name: '嘉義市東公有零售市場', nameEn: 'Chiayi East Market', map: 'https://maps.google.com/?q=嘉義市東公有零售市場', desc: 'The city before it wakes up. Vendors, steam, unhurried mornings.' },
+          { time: 'Brunch', name: 'Nose Man 鼻孔先生', nameEn: 'Handmade Egg Crêpe', map: 'https://maps.google.com/?q=Nose+man+鼻孔先生+嘉義', desc: 'The signature 粉漿蛋餅. Order one, sit, take your time.' },
+          { time: 'Afternoon', name: '枝椏 zhī yā', nameEn: '', map: 'https://maps.google.com/?q=枝椏+zhīyā+嘉義', desc: 'A café that earns its name. Good light, no rush.' },
+          { time: 'Evening', name: '檜意生活村', nameEn: 'Hinoki Village', map: 'https://maps.google.com/?q=檜意生活村+嘉義', desc: 'Japanese timber complex at dusk. The smell of cypress still lingers.' },
+          { time: 'Night', name: '文化路夜市 + 桃城豆花', nameEn: 'Wenhua Night Market + Táochéng Tofu Pudding', map: 'https://maps.google.com/?q=文化路夜市+嘉義', desc: 'Graze. End with tofu pudding. Táochéng means "Chiayi" in old dialect.' },
+        ]
+      },
+      {
+        label: 'Day 2',
+        stops: [
+          { time: 'Morning', name: '木商珈琲', nameEn: 'Timber Merchant Coffee', map: 'https://maps.google.com/?q=木商珈琲+嘉義', desc: 'Slow breakfast. The kind of place that doesn\'t need wifi.' },
+          { time: 'Afternoon', name: 'HERMIT & Co.', nameEn: '', map: 'https://maps.google.com/?q=HERMIT+and+Co+嘉義', desc: 'A considered space for coffee and quiet.' },
+          { time: 'Late Afternoon', name: '秘氏咖啡', nameEn: 'Mishi Café', map: 'https://maps.google.com/?q=秘氏咖啡+嘉義', desc: 'End here. Order one more thing. No hurry.' },
+        ]
+      }
+    ]
+  },
+  alley: {
+    label: 'Hidden Alleys',
+    title: 'The Side-Street Explorer',
+    desc: 'The Chiayi tourists don\'t see. Unsigned shops, backstreet art spaces, and corners that feel entirely yours. Every turn is a small discovery.',
+    bg: 'linear-gradient(135deg, #7A6552 0%, #4A3728 100%)',
+    price: '₩310,000',
+    days: [
+      {
+        label: 'Day 1',
+        stops: [
+          { time: 'Morning', name: '北門車站 + 阿里山森林鐵路車庫園區', nameEn: 'Beimen Station + Forest Railway Depot', map: 'https://maps.google.com/?q=北門車站+嘉義', desc: 'A 100-year-old cypress station. The depot beside it still holds old locomotives.' },
+          { time: 'Late Morning', name: '新華美西裝社', nameEn: 'Xinhua Tailor Shop', map: 'https://maps.google.com/?q=新華美西裝社+嘉義', desc: 'A tailor shop that time forgot. The owner still works at the same counter.' },
+          { time: 'Afternoon', name: 'Hunter Goods & Co. 小獵犬商號', nameEn: '', map: 'https://maps.google.com/?q=Hunter+Goods+小獵犬商號+嘉義', desc: 'Curated goods, slow browse. The kind of shop you come back to.' },
+          { time: 'Afternoon', name: '拾筆', nameEn: 'Shíbǐ Stationery', map: 'https://maps.google.com/?q=拾筆+嘉義', desc: 'Paper, pens, things that feel made by hand.' },
+          { time: 'Late Afternoon', name: 'スピード Supiido', nameEn: '', map: 'https://maps.google.com/?q=スピード+Supiido+嘉義', desc: 'The atmosphere is the whole point. Stay until the light changes.' },
+          { time: 'Night', name: '文化路夜市', nameEn: 'Wenhua Night Market', map: 'https://maps.google.com/?q=文化路夜市+嘉義', desc: 'Eat like a local.' },
+        ]
+      },
+      {
+        label: 'Day 2',
+        stops: [
+          { time: 'Morning', name: 'Nose Man 鼻孔先生', nameEn: 'Handmade Egg Crêpe', map: 'https://maps.google.com/?q=Nose+man+鼻孔先生+嘉義', desc: '粉漿蛋餅 to start the day right.' },
+          { time: 'Afternoon', name: '天來美術館', nameEn: 'Tianlai Art Museum', map: 'https://maps.google.com/?q=天來美術館+嘉義', desc: 'An off-the-beaten-path gallery. Quiet, unexpected.' },
+          { time: 'Late Afternoon', name: 'Koffee Suika 西瓜珈琲', nameEn: '', map: 'https://maps.google.com/?q=Koffee+Suika+西瓜珈琲+嘉義', desc: 'Watermelon coffee. Strange name, great space to end the day.' },
+        ]
+      }
+    ]
+  },
+  food: {
+    label: 'Food First',
+    title: 'The Flavor Chaser',
+    desc: 'Chiayi\'s food scene is the real reason to come. Turkey rice before 8am. Tofu pudding at 3pm. The night market that never disappoints. Two days, one obsession.',
+    bg: 'linear-gradient(135deg, #B8864E 0%, #7A4F2C 100%)',
+    price: '₩280,000',
+    days: [
+      {
+        label: 'Day 1',
+        stops: [
+          { time: 'Early Morning', name: '阿宏師雞肉飯', nameEn: 'A-Hong Turkey Rice', map: 'https://maps.google.com/?q=阿宏師雞肉飯+嘉義', desc: 'The Chiayi ritual. Turkey rice before the crowds.' },
+          { time: 'Morning', name: '嘉義市東公有零售市場', nameEn: 'Chiayi East Market', map: 'https://maps.google.com/?q=嘉義市東公有零售市場', desc: 'Graze as you go. Fresh produce, local vendors, no agenda.' },
+          { time: 'Afternoon', name: '御香屋', nameEn: 'Yùxiāngyū Drinks', map: 'https://maps.google.com/?q=御香屋+嘉義', desc: 'Local drink staple. Try the seasonal special.' },
+          { time: 'Afternoon', name: '桃城豆花', nameEn: 'Táochéng Tofu Pudding', map: 'https://maps.google.com/?q=桃城豆花+嘉義', desc: 'Silky, classic, unavoidable.' },
+          { time: 'Dinner', name: '林聰明沙鍋魚頭', nameEn: 'Lin Cong-Ming Fish Head Hotpot', map: 'https://maps.google.com/?q=林聰明沙鍋魚頭+嘉義', desc: 'A Chiayi institution since 1947. The clay pot fish head is non-negotiable.' },
+          { time: 'Night', name: '文化路夜市', nameEn: 'Wenhua Night Market', map: 'https://maps.google.com/?q=文化路夜市+嘉義', desc: 'Round two.' },
+        ]
+      },
+      {
+        label: 'Day 2',
+        stops: [
+          { time: 'Brunch', name: 'Nose Man 鼻孔先生', nameEn: 'Handmade Egg Crêpe', map: 'https://maps.google.com/?q=Nose+man+鼻孔先生+嘉義', desc: '粉漿蛋餅. A different kind of morning.' },
+          { time: 'Afternoon', name: '木商珈琲', nameEn: 'Timber Merchant Coffee', map: 'https://maps.google.com/?q=木商珈琲+嘉義', desc: 'Coffee and something sweet. Slow finish.' },
+          { time: 'Late Afternoon', name: '秘氏咖啡', nameEn: 'Mishi Café', map: 'https://maps.google.com/?q=秘氏咖啡+嘉義', desc: 'One last sit-down. You\'ve earned it.' },
+        ]
+      }
+    ]
+  },
+  culture: {
+    label: 'Cultural Drift',
+    title: 'The Slow Culture Walk',
+    desc: 'Colonial buildings that feel lived-in. Bookshops with character. Art spaces that don\'t need a brochure. Chiayi has more layers than it lets on — this itinerary finds them.',
+    bg: 'linear-gradient(135deg, #8A9E7A 0%, #5C7050 100%)',
+    price: '₩300,000',
+    days: [
+      {
+        label: 'Day 1',
+        stops: [
+          { time: 'Morning', name: '北門車站 + 阿里山森林鐵路車庫園區', nameEn: 'Beimen Station + Forest Railway Depot', map: 'https://maps.google.com/?q=北門車站+嘉義', desc: 'Where Chiayi\'s timber era began. The old cypress station is a listed historic site.' },
+          { time: 'Late Morning', name: '花磚博物館', nameEn: 'Taiwan Tile Museum', map: 'https://maps.google.com/?q=花磚博物館+嘉義', desc: 'The most unexpected room in the city. Japanese-era decorative tiles, lovingly preserved.' },
+          { time: 'Afternoon', name: '嘉義市立美術館', nameEn: 'Chiayi Art Museum', map: 'https://maps.google.com/?q=嘉義市立美術館', desc: 'A colonial-era building repurposed beautifully. Local and contemporary works.' },
+          { time: 'Evening', name: '嘉義文化創意產業園區', nameEn: 'Chiayi Cultural & Creative Park', map: 'https://maps.google.com/?q=嘉義文化創意產業園區', desc: 'Old brewery turned creative district. Good energy, especially at dusk.' },
+          { time: 'Night', name: '文化路夜市', nameEn: 'Wenhua Night Market', map: 'https://maps.google.com/?q=文化路夜市+嘉義', desc: 'The city unwinding.' },
+        ]
+      },
+      {
+        label: 'Day 2',
+        stops: [
+          { time: 'Morning', name: '島呼冊店', nameEn: 'Island Call Bookshop', map: 'https://maps.google.com/?q=島呼冊店+嘉義', desc: 'Independent bookshop with soul. Browse without agenda.' },
+          { time: 'Morning', name: '拾筆', nameEn: 'Shíbǐ Stationery', map: 'https://maps.google.com/?q=拾筆+嘉義', desc: 'Paper, pens, things worth keeping.' },
+          { time: 'Afternoon', name: '嘉義舊監獄', nameEn: 'Old Chiayi Prison', map: 'https://maps.google.com/?q=嘉義舊監獄', desc: 'A Japanese colonial-era prison now open to the public. Unexpectedly moving.' },
+          { time: 'Late Afternoon', name: '檜意生活村', nameEn: 'Hinoki Village', map: 'https://maps.google.com/?q=檜意生活村+嘉義', desc: 'End here. Japanese cypress residential complex, beautifully restored. The smell of wood everywhere.' },
+        ]
+      }
+    ]
+  }
+};
+
+// ── MODAL ──────────────────────────────────────────────────────
+function openModal(key) {
+  const p = packages[key];
+  const box = document.getElementById('modalBox');
+  const stopsHtml = p.days.map(day => `
+    <div class="modal-day-label">${day.label}</div>
+    ${day.stops.map(s => `
+      <div class="modal-stop">
+        <div class="modal-stop-time">${s.time}</div>
+        <div class="modal-stop-content">
+          <div class="modal-stop-name"><a href="${s.map}" target="_blank">${s.name}${s.nameEn ? ' <span style="font-weight:300;color:var(--ink-soft)">· ' + s.nameEn + '</span>' : ''}</a></div>
+          <div class="modal-stop-desc">${s.desc}</div>
+        </div>
+      </div>`).join('')}
+  `).join('');
+
+  box.innerHTML = `
+    <div class="modal-hero" style="background:${p.bg}">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-hero-info">
+        <div class="modal-pkg-tag">${p.label} · 2 Days 1 Night · From ${p.price}</div>
+        <div class="modal-pkg-title">${p.title}</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">${p.desc}</p>
+      ${stopsHtml}
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-primary" onclick="document.getElementById('capture').scrollIntoView({behavior:'smooth'});closeModal()">Book This Package</button>
+        <button class="modal-btn modal-btn-ghost" onclick="document.getElementById('capture').scrollIntoView({behavior:'smooth'});closeModal()">Email Me This Itinerary</button>
+      </div>
+    </div>`;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── CHATBOT (lightweight) ──────────────────────────────────────
+const quiz = [
+  {
+    id: 'state',
+    question: "Which of these sounds most like you lately?",
+    options: [
+      { text: "Work has been relentless. I need to go somewhere and do absolutely nothing.", value: 'slowlife' },
+      { text: "I want to discover a city nobody's told me about yet. A little mystery is fine.", value: 'alley' },
+      { text: "Honestly? I just want to eat incredible food and not worry about anything else.", value: 'food' },
+      { text: "I'm craving a place that has real character — not polished, just genuine.", value: 'culture' }
+    ]
+  },
+  {
+    id: 'prep',
+    question: "You've just booked your Chiayi trip. How do you prepare?",
+    options: [
+      { text: "I don't. I land and figure it out. Spontaneity is the point.", value: 'loose' },
+      { text: "I save a few café addresses and let the rest unfold naturally.", value: 'semi' },
+      { text: "I build a meal list first. Everything else fits around that.", value: 'food' },
+      { text: "I pick two or three meaningful spots. I don't like feeling rushed.", value: 'curated' }
+    ]
+  },
+  {
+    id: 'photo',
+    question: "What would you actually want to photograph on this trip?",
+    options: [
+      { text: "☕  Morning light through a café window — steam rising, no people.", value: 'slowlife' },
+      { text: "🚶  An unmarked alley with something unexpected at the end.", value: 'alley' },
+      { text: "🍜  A steaming bowl of turkey rice, shot from three angles.", value: 'food' },
+      { text: "🏛️  A weathered wooden door or an old window frame.", value: 'culture' }
+    ]
+  },
+  {
+    id: 'depart',
+    question: "Where are you flying from?",
+    options: [
+      { text: "✈️  Seoul (ICN)", value: 'seoul' },
+      { text: "✈️  Busan (PUS)", value: 'busan' },
+      { text: "✈️  Jeju (CJU)", value: 'jeju' },
+      { text: "🌏  Somewhere else", value: 'other' }
+    ]
+  },
+  {
+    id: 'group',
+    question: "Last one — who's coming with you?",
+    options: [
+      { text: "Just me. Solo trips are how I recharge.", value: 'solo' },
+      { text: "Two of us — partner or close friend.", value: 'duo' },
+      { text: "Three or more. We travel as a crew.", value: 'group' }
+    ]
+  }
+];
+
+const results = {
+  slowlife: {
+    tag: "Your match: Slow Life",
+    title: "The Do-Nothing Escape",
+    desc: "Two days of deliberate slowness. Morning markets, afternoon cafés, and the rare luxury of an unscheduled evening.",
+    itinerary: [
+      { time: "Day 1 · Morning", text: "<a href='https://maps.google.com/?q=嘉義市東公有零售市場' target='_blank'>Chiayi East Market</a> — the city before it wakes up" },
+      { time: "Day 1 · Brunch", text: "<a href='https://maps.google.com/?q=Nose+man+鼻孔先生+嘉義' target='_blank'>Nose Man 鼻孔先生</a> — egg crêpe, no rush" },
+      { time: "Day 1 · Afternoon", text: "<a href='https://maps.google.com/?q=枝椏+zhīyā+嘉義' target='_blank'>枝椏 zhī yā</a> — order one thing, stay long" },
+      { time: "Day 1 · Evening", text: "<a href='https://maps.google.com/?q=檜意生活村+嘉義' target='_blank'>Hinoki Village</a> — Japanese timber complex at dusk" },
+      { time: "Day 1 · Night", text: "<a href='https://maps.google.com/?q=文化路夜市+嘉義' target='_blank'>Wenhua Night Market</a> + <a href='https://maps.google.com/?q=桃城豆花+嘉義' target='_blank'>Táochéng Tofu Pudding</a>" },
+      { time: "Day 2 · Morning", text: "<a href='https://maps.google.com/?q=木商珈琲+嘉義' target='_blank'>木商珈琲</a> — slow breakfast, no agenda" },
+      { time: "Day 2 · Afternoon", text: "<a href='https://maps.google.com/?q=HERMIT+and+Co+嘉義' target='_blank'>HERMIT & Co.</a> → <a href='https://maps.google.com/?q=秘氏咖啡+嘉義' target='_blank'>秘氏咖啡</a> — café to café, that's the plan" }
+    ]
+  },
+  alley: {
+    tag: "Your match: Hidden Alleys",
+    title: "The Side-Street Explorer",
+    desc: "The Chiayi tourists don't see. Unsigned shops, backstreet galleries, and corners that feel like they're yours alone.",
+    itinerary: [
+      { time: "Day 1 · Morning", text: "<a href='https://maps.google.com/?q=北門車站+嘉義' target='_blank'>Beimen Station</a> + <a href='https://maps.google.com/?q=阿里山森林鐵路車庫園區+嘉義' target='_blank'>Forest Railway Depot</a> — old tracks, old light" },
+      { time: "Day 1 · Late Morning", text: "<a href='https://maps.google.com/?q=新華美西裝社+嘉義' target='_blank'>新華美西裝社</a> — a tailor shop frozen in time" },
+      { time: "Day 1 · Afternoon", text: "<a href='https://maps.google.com/?q=Hunter+Goods+小獵犬商號+嘉義' target='_blank'>Hunter Goods & Co.</a> → <a href='https://maps.google.com/?q=拾筆+嘉義' target='_blank'>拾筆</a> — select shops worth lingering in" },
+      { time: "Day 1 · Late Afternoon", text: "<a href='https://maps.google.com/?q=スピード+Supiido+嘉義' target='_blank'>スピード Supiido'] — the atmosphere is the whole point" },
+      { time: "Day 1 · Night", text: "<a href='https://maps.google.com/?q=文化路夜市+嘉義' target='_blank'>Wenhua Night Market</a> — eat like a local" },
+      { time: "Day 2 · Morning", text: "<a href='https://maps.google.com/?q=Nose+man+鼻孔先生+嘉義' target='_blank'>Nose Man 鼻孔先生</a> — egg crêpe to start" },
+      { time: "Day 2 · Afternoon", text: "<a href='https://maps.google.com/?q=天來美術館+嘉義' target='_blank'>Tianlai Art Museum</a> → <a href='https://maps.google.com/?q=Koffee+Suika+西瓜珈琲+嘉義' target='_blank'>Koffee Suika 西瓜珈琲</a>" }
+    ]
+  },
+  food: {
+    tag: "Your match: Food First",
+    title: "The Flavor Chaser",
+    desc: "Chiayi's food scene is the real reason to come. Turkey rice at 7am. Tofu pudding at 3pm. No itinerary, just hunger.",
+    itinerary: [
+      { time: "Day 1 · Early Morning", text: "<a href='https://maps.google.com/?q=阿宏師雞肉飯+嘉義' target='_blank'>阿宏師雞肉飯</a> — turkey rice before the crowds" },
+      { time: "Day 1 · Morning", text: "<a href='https://maps.google.com/?q=嘉義市東公有零售市場' target='_blank'>Chiayi East Market</a> — graze as you go" },
+      { time: "Day 1 · Afternoon", text: "<a href='https://maps.google.com/?q=御香屋+嘉義' target='_blank'>御香屋</a> + <a href='https://maps.google.com/?q=桃城豆花+嘉義' target='_blank'>桃城豆花</a> — drink, then dessert" },
+      { time: "Day 1 · Dinner", text: "<a href='https://maps.google.com/?q=林聰明沙鍋魚頭+嘉義' target='_blank'>林聰明沙鍋魚頭</a> — the institution" },
+      { time: "Day 1 · Night", text: "<a href='https://maps.google.com/?q=文化路夜市+嘉義' target='_blank'>Wenhua Night Market</a> — round two" },
+      { time: "Day 2 · Brunch", text: "<a href='https://maps.google.com/?q=Nose+man+鼻孔先生+嘉義' target='_blank'>Nose Man 鼻孔先生</a> — egg crêpe, a different kind of morning" },
+      { time: "Day 2 · Afternoon", text: "<a href='https://maps.google.com/?q=木商珈琲+嘉義' target='_blank'>木商珈琲</a> or <a href='https://maps.google.com/?q=秘氏咖啡+嘉義' target='_blank'>秘氏咖啡</a> — slow finish" }
+    ]
+  },
+  culture: {
+    tag: "Your match: Cultural Drift",
+    title: "The Slow Culture Walk",
+    desc: "Colonial buildings that feel lived-in. Bookshops with character. Art that doesn't try too hard. Chiayi at its most thoughtful.",
+    itinerary: [
+      { time: "Day 1 · Morning", text: "<a href='https://maps.google.com/?q=北門車站+嘉義' target='_blank'>Beimen Station</a> + <a href='https://maps.google.com/?q=阿里山森林鐵路車庫園區+嘉義' target='_blank'>Forest Railway Depot</a> — where the timber era began" },
+      { time: "Day 1 · Late Morning", text: "<a href='https://maps.google.com/?q=花磚博物館+嘉義' target='_blank'>Taiwan Tile Museum</a> — the most unexpected room in the city" },
+      { time: "Day 1 · Afternoon", text: "<a href='https://maps.google.com/?q=嘉義市立美術館' target='_blank'>Chiayi Art Museum</a> — colonial building, contemporary works" },
+      { time: "Day 1 · Evening", text: "<a href='https://maps.google.com/?q=嘉義文化創意產業園區' target='_blank'>Chiayi Cultural & Creative Park</a> — old brewery, new energy" },
+      { time: "Day 1 · Night", text: "<a href='https://maps.google.com/?q=文化路夜市+嘉義' target='_blank'>Wenhua Night Market</a>" },
+      { time: "Day 2 · Morning", text: "<a href='https://maps.google.com/?q=島呼冊店+嘉義' target='_blank'>島呼冊店</a> + <a href='https://maps.google.com/?q=拾筆+嘉義' target='_blank'>拾筆</a> — books, stationery, no rush" },
+      { time: "Day 2 · Afternoon", text: "<a href='https://maps.google.com/?q=嘉義舊監獄' target='_blank'>Old Prison</a> → <a href='https://maps.google.com/?q=檜意生活村+嘉義' target='_blank'>Hinoki Village</a> — history you can walk through" }
+    ]
+  }
+};
+
+let answers = {};
+let currentQ = 0;
+let chatOpen = false;
+
+function toggleChat() {
+  if (chatOpen) closeChat(); else openChat();
+}
+
+function openChat() {
+  chatOpen = true;
+  document.getElementById('chatPanel').classList.add('open');
+  if (currentQ === 0 && document.getElementById('chatBody').children.length === 0) {
+    startChat();
+  }
+}
+
+function closeChat() {
+  chatOpen = false;
+  document.getElementById('chatPanel').classList.remove('open');
+}
+
+function startChat() {
+  const body = document.getElementById('chatBody');
+  body.innerHTML = '';
+  answers = {};
+  currentQ = 0;
+  addBotMsg("Hey there 👋 I'm your Chiayi guide. I'll help you find the perfect 2-day itinerary — it only takes a minute.");
+  setTimeout(() => askQuestion(0), 900);
+}
+
+function addBotMsg(text, delay = 0) {
+  const body = document.getElementById('chatBody');
+  setTimeout(() => {
+    const typing = document.createElement('div');
+    typing.className = 'msg-bot';
+    typing.innerHTML = `<div class="chat-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+    body.appendChild(typing);
+    body.scrollTop = body.scrollHeight;
+    setTimeout(() => {
+      typing.innerHTML = `<div class="msg-bubble">${text}</div>`;
+      body.scrollTop = body.scrollHeight;
+    }, 700);
+  }, delay);
+}
+
+// 為了確保後續邏輯完整，補上 selectOpt, askQuestion 等 chatbot 核心事件處理
+function askQuestion(index) {
+  const q = quiz[index];
+  const body = document.getElementById('chatBody');
+  addBotMsg(q.question, 700);
+  setTimeout(() => {
+    const opts = document.createElement('div');
+    opts.className = 'msg-bot';
+    opts.innerHTML = `<div class="chat-options">${q.options.map(o => `<button class="chat-opt" onclick="selectOpt(this,'${q.id}','${o.value}',${index})">${o.text}</button>`).join('')}</div>`;
+    body.appendChild(opts);
+    body.scrollTop = body.scrollHeight;
+  }, 1600);
+}
+
+function selectOpt(btn, qid, val, qindex) {
+  btn.parentElement.querySelectorAll('.chat-opt').forEach(b => { b.classList.remove('selected'); b.disabled = true; });
+  btn.classList.add('selected');
+  answers[qid] = val;
+  const body = document.getElementById('chatBody');
+  setTimeout(() => {
+    const um = document.createElement('div');
+    um.className = 'msg-user';
+    um.innerHTML = `<div class="msg-bubble">${btn.textContent}</div>`;
+    body.appendChild(um);
+    body.scrollTop = body.scrollHeight;
+  }, 200);
+  currentQ = qindex + 1;
+  if (currentQ < quiz.length) setTimeout(() => askQuestion(currentQ), 600);
+  else setTimeout(() => showResult(), 700);
+}
+
+function showResult() {
+  const votes = { slowlife: 0, alley: 0, food: 0, culture: 0 };
+  if (answers.state && votes[answers.state] !== undefined) votes[answers.state] += 2;
+  if (answers.photo && votes[answers.photo] !== undefined) votes[answers.photo] += 2;
+  if (answers.prep === 'loose') { votes.alley++; votes.slowlife++; }
+  if (answers.prep === 'semi') { votes.slowlife++; votes.culture++; }
+  if (answers.prep === 'food') votes.food += 2;
+  if (answers.prep === 'curated') { votes.culture++; votes.alley++; }
+
+  const top = Object.entries(votes).sort((a,b) => b[1]-a[1])[0][0];
+  const p = results[top];
+
+  const transport = {
+    seoul: 'From Seoul (ICN) → fly to Kaohsiung → HSR to Chiayi (~4.5 hrs)',
+    busan: 'From Busan (PUS) → fly to Tainan → Taiwan Rail to Chiayi (~3.5 hrs)',
+    jeju: 'From Jeju (CJU) → connect via Taipei → HSR to Chiayi (~5.5 hrs)',
+    other: 'We\'ll include full transport details in your itinerary email.'
+  };
+
+  addBotMsg("Done ✦ Here's your match.", 300);
+  const body = document.getElementById('chatBody');
+  setTimeout(() => {
+    const card = document.createElement('div');
+    card.className = 'msg-bot';
+    let stopsList = p.itinerary.map(s => `<div class="result-stop">${s.time}: ${s.text}</div>`).join('');
+    card.innerHTML = `
+      <div class="result-card">
+        <div class="result-tag">${p.tag}</div>
+        <div class="result-title">${p.title}</div>
+        <div class="result-desc">${p.desc}</div>
+        <div class="result-itinerary">${stopsList}</div>
+        <div class="result-stop" style="border-left-color:var(--sage);margin-bottom:1rem">${transport[answers.depart] || transport.other}</div>
+        <div class="result-actions">
+          <button class="result-btn result-btn-primary" onclick="closeChat();openModal('${top}')">See Details</button>
+          <button class="result-btn result-btn-ghost" onclick="document.getElementById('capture').scrollIntoView({behavior:'smooth'});closeChat()">Email Me This</button>
+        </div>
+      </div>`;
+    body.appendChild(card);
+    body.scrollTop = body.scrollHeight;
+  }, 1400);
+}
+</script>
+</body>
+</html>
